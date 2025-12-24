@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import List
 
 import httpx
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 from services.common.events import (
     IngestionEvent,
@@ -16,12 +16,20 @@ from services.common.events import (
 
 
 class Settings(BaseSettings):
-    inbox_dir: Path = Path(os.getenv("INBOX_DIR", "data/inbox"))
-    evidence_logger_url: str = os.getenv("EVIDENCE_LOGGER_URL", "http://evidence-logger:9000/events")
+    """Ingestion service settings.
+
+    Values are loaded from environment variables with the FACTORY_ prefix.
+    """
+
+    inbox_dir: Path = Path(os.getenv("FACTORY_INBOX_DIR", "data/inbox"))
+    evidence_logger_url: str = os.getenv(
+        "FACTORY_EVIDENCE_LOGGER_URL",
+        "http://evidence-logger:9000/events",
+    )
     service_name: str = "ingestion"
 
     class Config:
-        env_prefix = "FACTORY_"  # FACTORY_INBOX_DIR, FACTORY_EVIDENCE_LOGGER_URL, ...
+        env_prefix = "FACTORY_"
 
 
 settings = Settings()
@@ -53,7 +61,11 @@ def build_ingestion_event(path: Path) -> IngestionEvent:
         sha256=_sha256_file(path),
         source_host=os.uname().nodename,
     )
-    return IngestionEvent(event_type="ingestion", service=settings.service_name, payload=payload)
+    return IngestionEvent(
+        event_type="ingestion",
+        service=settings.service_name,
+        payload=payload,
+    )
 
 
 def send_events(events: List[IngestionEvent]) -> None:
@@ -75,4 +87,4 @@ def run_once() -> None:
 
 if __name__ == "__main__":
     run_once()
-  
+    
