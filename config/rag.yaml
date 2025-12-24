@@ -1,0 +1,36 @@
+# RAG pipeline configuration
+
+chunking:
+  strategy: "header_aware"        # header_aware | fixed
+  max_tokens: 800                 # target chunk size
+  overlap_tokens: 150             # overlap between chunks
+  min_chunk_chars: 200
+  max_chunk_chars: 4000
+
+retrieval:
+  top_k: 8
+  min_score: 0.15
+  max_context_tokens: 2800
+  allowed_mime_types:
+    - "text/markdown"
+    - "text/plain"
+    - "application/pdf"
+
+filters:
+  # Optional default filters applied at query time
+  default_tags: []
+  max_doc_age_days: null          # null = no age limit
+
+prompt:
+  system_role: |
+    You are the Local AI Factory knowledge operator. Answer strictly and only
+    from the provided context chunks. Never invent sources or facts. If the
+    context is insufficient, clearly state that you cannot answer from the
+    available evidence.
+  answer_max_tokens: 512
+  allow_abstain: true
+  require_citations: true
+
+output:
+  max_answer_chars: 4000
+  
