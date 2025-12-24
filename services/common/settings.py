@@ -2,10 +2,16 @@ from __future__ import annotations
 
 from functools import lru_cache
 
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 
 class FactorySettings(BaseSettings):
+    """Shared configuration for Local AI Factory services.
+
+    Values are loaded from environment variables with the FACTORY_ prefix
+    (for example, FACTORY_DB_HOST, FACTORY_ENV, etc.).
+    """
+
     env: str = "local"  # local | demo | test
 
     db_host: str = "db"
@@ -24,4 +30,4 @@ class FactorySettings(BaseSettings):
 @lru_cache(maxsize=1)
 def get_settings() -> FactorySettings:
     return FactorySettings()
-  
+    
