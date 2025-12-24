@@ -1,0 +1,60 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: factory
+      POSTGRES_USER: factory
+      POSTGRES_PASSWORD: factory
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - factory_net
+
+  evidence-logger:
+    build: ./services/evidence_logger
+    environment:
+      EVIDENCE_LOG_DIR: /app/logs
+    volumes:
+      - ./data/logs:/app/logs
+    networks:
+      - factory_net
+
+  ingestion:
+    build: ./services/ingestion
+    environment:
+      FACTORY_INBOX_DIR: /app/inbox
+      FACTORY_EVIDENCE_LOGGER_URL: http://evidence-logger:9000/events
+    volumes:
+      - ./data/inbox:/app/inbox:ro
+    depends_on:
+      - evidence-logger
+    networks:
+      - factory_net
+
+  rag-api:
+    build: ./services/rag
+    environment:
+      FACTORY_EVIDENCE_LOGGER_URL: http://evidence-logger:9000/events
+    ports:
+      - "8000:8000"
+    depends_on:
+      - evidence-logger
+    networks:
+      - factory_net
+
+  ui:
+    build: ./services/ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - rag-api
+    networks:
+      - factory_net
+
+networks:
+  factory_net:
+    driver: bridge
+
+volumes:
+  postgres-data:
+``
