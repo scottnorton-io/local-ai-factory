@@ -1,0 +1,37 @@
+# Evaluation configuration for the Local AI Factory
+
+default_suite: "smoke"
+
+suites:
+  smoke:
+    description: "Quick evaluation suite for CI and local checks."
+    questions_file: "tests/evaluation/questions.yaml"
+    max_cases: 10
+    score_threshold: 0.8
+    allow_failures: 0
+
+  nightly:
+    description: "Full evaluation run with hallucination traps and regressions."
+    questions_file: "tests/evaluation/questions.yaml"
+    max_cases: null       # all
+    score_threshold: 0.9
+    allow_failures: 0
+
+grading:
+  # Simple rule-based grading; judge_model can be added later
+  expected_contains_weight: 0.7
+  forbid_phrases_weight: 0.3
+
+  # Phrases that strongly indicate unacceptable hallucination or overclaiming
+  global_forbid_phrases:
+    - "I have direct access to external systems"
+    - "I verified this in real time"
+    - "regardless of the documents"
+
+runs:
+  # Example schedules; actual scheduling lives in your CI or cron
+  ci:
+    suite: "smoke"
+  nightly:
+    suite: "nightly"
+    
