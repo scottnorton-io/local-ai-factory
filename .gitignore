@@ -27,3 +27,7 @@ data/briefs/
 
 # OS files
 .DS_Store
+
+# local environment
+.env
+
