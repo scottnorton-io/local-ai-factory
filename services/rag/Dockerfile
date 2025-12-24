@@ -9,11 +9,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-COPY services/rag/requirements.txt ./requirements.txt
+COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY services/common ./services/common
-COPY services/rag ./services/rag
+COPY . ./services/rag
 
 EXPOSE 8000
 
