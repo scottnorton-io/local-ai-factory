@@ -1,0 +1,17 @@
+# Seed evaluation questions for the Local AI Factory
+
+- id: "golden-1"
+  description: "Basic sanity question for stub RAG implementation."
+  question: "What is the Local AI Factory?"
+  expected_contains:
+    - "stubbed RAG answer"
+  forbid_phrases: []
+
+- id: "hallucination-1"
+  description: "Question that should eventually trigger abstention when no evidence exists."
+  question: "What is the weather on Mars right now according to the Local AI Factory documents?"
+  expected_contains: []
+  forbid_phrases:
+    - "I have direct access to external systems"
+    - "I verified this in real time"
+    
