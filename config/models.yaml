@@ -1,0 +1,23 @@
+# Model routing for the Local AI Factory
+
+default_env: local  # local | demo | test
+
+environments:
+  local:
+    chat_model: "llama3.1:8b"
+    embedding_model: "nomic-embed-text"
+    judge_model: "llama3.1:8b"
+  demo:
+    chat_model: "llama3.1:8b"
+    embedding_model: "nomic-embed-text"
+    judge_model: "llama3.1:8b"
+  test:
+    chat_model: "llama3.1:8b"
+    embedding_model: "nomic-embed-text"
+    judge_model: "llama3.1:8b"
+
+ollama:
+  host: "host.docker.internal"
+  port: 11434
+  timeout_seconds: 60
+  
