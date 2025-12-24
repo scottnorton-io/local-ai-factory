@@ -1,0 +1,35 @@
+# Logging configuration
+
+format: "json"              # json | text
+level: "INFO"               # DEBUG | INFO | WARNING | ERROR
+include_timestamp: true
+include_trace_id: true
+include_service_name: true
+
+# Basic per-service overrides
+services:
+  evidence-logger:
+    level: "INFO"
+  ingestion:
+    level: "INFO"
+  indexer:
+    level: "INFO"
+  rag-api:
+    level: "INFO"
+  briefs:
+    level: "INFO"
+  eval:
+    level: "INFO"
+  ui:
+    level: "INFO"
+
+fields:
+  timestamp_key: "ts"
+  level_key: "level"
+  message_key: "msg"
+  service_key: "service"
+  trace_id_key: "trace_id"
+  extra_keys:
+    - "request_id"
+    - "user_id"
+    
