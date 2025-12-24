@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pytest_cache/
+*.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+.envrc
+
+# IDEs / editors
+.vscode/
+.idea/
+*.swp
+
+# Local data & logs
+data/inbox/
+data/logs/
+data/briefs/
+
+# Docker
+*.log
+
+# OS files
+.DS_Store
