@@ -1,0 +1,27 @@
+from __future__ import annotations
+
+from functools import lru_cache
+
+from pydantic import BaseSettings
+
+
+class FactorySettings(BaseSettings):
+    env: str = "local"  # local | demo | test
+
+    db_host: str = "db"
+    db_port: int = 5432
+    db_name: str = "factory"
+    db_user: str = "factory"
+    db_password: str = "factory"
+
+    ollama_host: str = "host.docker.internal"
+    ollama_port: int = 11434
+
+    class Config:
+        env_prefix = "FACTORY_"
+
+
+@lru_cache(maxsize=1)
+def get_settings() -> FactorySettings:
+    return FactorySettings()
+  
