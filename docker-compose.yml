@@ -12,8 +12,8 @@ services:
 
   evidence-logger:
     build:
-      context: .
-      dockerfile: ./services/evidence_logger/Dockerfile
+      context: ./services/evidence_logger
+      dockerfile: Dockerfile
     environment:
       EVIDENCE_LOG_DIR: /app/logs
     volumes:
@@ -23,8 +23,8 @@ services:
 
   ingestion:
     build:
-      context: .
-      dockerfile: ./services/ingestion/Dockerfile
+      context: ./services/ingestion
+      dockerfile: Dockerfile
     environment:
       FACTORY_INBOX_DIR: /app/inbox
       FACTORY_EVIDENCE_LOGGER_URL: http://evidence-logger:9000/events
@@ -37,8 +37,8 @@ services:
 
   rag-api:
     build:
-      context: .
-      dockerfile: ./services/rag/Dockerfile
+      context: ./services/rag
+      dockerfile: Dockerfile
     environment:
       FACTORY_EVIDENCE_LOGGER_URL: http://evidence-logger:9000/events
     ports:
@@ -50,8 +50,8 @@ services:
 
   ui:
     build:
-      context: .
-      dockerfile: ./services/ui/Dockerfile
+      context: ./services/ui
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
@@ -61,8 +61,8 @@ services:
 
   tests:
     build:
-      context: .
-      dockerfile: ./docker/Dockerfile.tests
+      context: ./docker
+      dockerfile: Dockerfile.tests
     environment:
       FACTORY_ENV: local
     working_dir: /app
